@@ -6,14 +6,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - node
-    volumes: 
-      - ./dist:/usr/share/nginx/html
     ports:
       - "1234:80"
 
   node:
-    build: 
-      context: ./packages/api
-      dockerfile: ./packages/api/Dockerfile
+    build: ./packages/api
     ports:
       - "32768:32768"

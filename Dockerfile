@@ -1,17 +1,12 @@
-# 使用 Node 的官方基础镜像
-FROM node:latest
-
-# 设置工作目录
-WORKDIR /usr/src/app
-
-# 复制 package.json 和 yarn.lock 到工作目录
-COPY package*.json yarn.lock ./
-
-# 安装项目依赖
-RUN yarn install
-
-# 复制所有本地文件到工作目录
+# 阶段一: 构建
+FROM node:18 AS build
+WORKDIR /app
 COPY . .
+RUN YARN_IGNORE_SCRIPTS=1 yarn
+RUN yarn build:web
 
-# 运行构建命令
-RUN yarn build
+# 阶段二: 设置 Nginx
+FROM nginx:latest
+# 注意：你可能需要根据你的 Nginx 配置和构建的输出修改以下这行
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
