@@ -61,7 +61,14 @@ yarn pkg:macos
 ##### linux 端
 ```
 yarn pkg:linux
-```  
+```
+
+### 一键部署
+
+```
+docker-compose up -d
+# 然后访问 http://localhost:1234
+```
 
 ### 支持的功能
 
