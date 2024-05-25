@@ -1,0 +1,19 @@
+services: 
+
+  nginx:
+    build:  # 这是你的 Nginx Dockerfile 所在的位置
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - node
+    volumes: 
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - "1234:80"
+
+  node:
+    build: 
+      context: ./packages/api
+      dockerfile: ./packages/api/Dockerfile
+    ports:
+      - "32768:32768"
